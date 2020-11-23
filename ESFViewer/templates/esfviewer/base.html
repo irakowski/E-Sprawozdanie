@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'esfviewer/style.css' %}">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>{% block title %} E-Sprawozdanie {% endblock %}</title>
+</head>
+<body>
+    <!-- Just an image navigration -->
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'landing-page' %}" style="font-weight: bold;">
+            e-Sprawozdanie Finansowe
+            <!--<img src="" width="30" height="30" alt="" loading="lazy"> -->
+        </a>
+    </nav>
+    <!--Site wrapper-->
+    <header class="page-header header container-fluid">
+        {% block content %}
+        {% endblock %}
+    </header>
+</body>
+</html>
