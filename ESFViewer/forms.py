@@ -1,11 +1,22 @@
 from django import forms
+import os
+from .validators import MimetypeValidator
+
 
 class UploadFinancialStatementForm(forms.Form):
-    
-    title = forms.CharField(max_length=150)
-    file = forms.FileField(widget=forms.FileInput(attrs={'accept': 'application/xml, text/xml'}))
+    """
+    Form for uploading XML files. 
+    Only allows for XML to be specified for upload throught accept attribute
+    Checks file extention with clean_file method
+    Validates MIME type of the file throught Mimetypevalidator
+    """
 
-    ALLOWED_TYPES = ['xml', 'xsd']
+    ALLOWED_TYPES = ['xml']
+    
+    file = forms.FileField(label='XML File Upload:', required=True, 
+                           widget=forms.FileInput(attrs={'accept': 'application/xml, text/xml'}), 
+                           validators=[MimetypeValidator('text/xml')]
+                           )
 
     def clean_file(self):
         file = self.cleaned_data.get('file', None)
