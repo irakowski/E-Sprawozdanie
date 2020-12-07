@@ -1,81 +1,39 @@
 {% extends 'esfviewer/base.html' %}
-
 {% load static %}
+
 {% block content %}    
   <div class="container">
-    <h3 class="mt-5 mb-5 text-center">INFORMACJA Z SPRAWOZDANIA FINANSOWEGO, O KTÓRYM MOWA W ART. 45 USTAWY, DLA JEDNOSTEK INNYCH NIŻ BANKI, ZAKŁADY UBEZPIECZEŃ I ZAKŁADY REASEKURACJI</h3>
-    {% include 'esfviewer/naglowek.html' %}
-    <h5 class="mt-2 mb-3">Wprowadzenie do sprawozdania finansowego</h5>
     <div class="row">
-        <div class="col">
-          <p>Nazwa firmy: </p>
-        </div>
-        <div class="col">
-          <p>{{data.siedziba.NazwaFirmy}}</p>
-        </div>
+      <h4 class="mt-5 mb-5 text-center">INFORMACJA Z SPRAWOZDANIA FINANSOWEGO, O KTÓRYM MOWA W ART. 45 USTAWY, DLA JEDNOSTEK INNYCH NIŻ BANKI, ZAKŁADY UBEZPIECZEŃ I ZAKŁADY REASEKURACJI</h3>
     </div>
-    {% include 'esfviewer/siedziba.html'%}
-    {% include 'esfviewer/adres.html'%}
-
-    <div class="row">
-      <div class="col">
-        <p>PKD: </p>
-      </div>
-      <div class="col">
-        {% for kod in data.pkd%}
-        <p>{{kod}}</p>
-        {% endfor %}
-      </div>
-  </div>
-
-    <div class="row">
-      <div class="col">
-        <p>NIP: </p>
-      </div>
-      <div class="col">
-        <p>{{data.nip}}</p>
-      </div>
+    <div>
+      {% include 'esfviewer/naglowek.html' %}
     </div>
-    <div class="row">
-      <div class="col">
-        <p>KRS: </p>
-      </div>
-      <div class="col">
-        <p>{{data.krs}}</p>
-      </div>
+    
+    <div>
+      {% include 'esfviewer/wprowadzenie.html' %}
+    </div>
+    <div>
+      {% include 'esfviewer/zasady.html' %}
     </div>
 
-    Okres sprawozdania
-    <div class="row">
-      <div class="col">
-        <p>Data od: </p>
-      </div>
-      <div class="col">
-        <p>{{data.okres_sprawozdania.DataOd}}</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <p>Data Do: </p>
-      </div>
-      <div class="col">
-        <p>{{data.okres_sprawozdania.DataDo}}</p>
-      </div>
-    </div>
-    Czas Dzialalności jezeli zostal ograniczony:
-    {{data.czas_dzialalnosci_jezeli_ograniczony}}
-
-    {{data.dane_laczne}}
-    {{data.info_o_polaczeniu}}
-    {{data.kontunuacja_dzilalalnosci.P_5A}}
-    {{data.kontunuacja_dzilalalnosci.P_5B}}
-    {{data.kontunuacja_dzilalalnosci.P_5C}}
-    <br>
-
-    {{data.zasady}}
     <br>
     {{data.zalozenia.Opis}}
-    <div class="text-center">
+
+    <div>
+      {% include 'esfviewer/bilans.html'%}
+    </div>
+
+    <div>
+      {% include 'esfviewer/rzis.html'%}
+    </div>
+    
+    <div>
+      {% include 'esfviewer/zmiany.html'%}
+    </div>
+    
+    <div>
+      {% include 'esfviewer/rachunek_zmian.html'%}
     </div>
   </div>
 {% endblock %}

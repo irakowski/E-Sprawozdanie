@@ -3,6 +3,7 @@ from django.views import generic
 from . import forms
 import xml.etree.ElementTree as ET
 # Create your views here.
+from .desc import description_dict, rzis, zmiany, rachunek
 
 class LandingPage(generic.TemplateView):
     template_name = 'esfviewer/index.html'
@@ -22,4 +23,4 @@ class FormView(generic.FormView):
                 str_text = str_text + line.decode()
             data = parse_txt(str_text)
             return render(self.request, 'esfviewer/output.html',
-                       {"data": data})
+                       {"data": data, "desc" : description_dict, 'rzis':rzis, 'zmiany': zmiany, 'rachunek': rachunek})

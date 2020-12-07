@@ -1,41 +1,33 @@
-<h5 class="mt-2 mb-3">Nagłówek sprawozdania finansowego</h5>
-<div class="row">
-    <div class="col">
-      <p>Okres od: </p>
+<section>
+  <div class="accordion" id="accordionHeader">
+    <div class="card shadow">
+      <div class="card-header" id="headingOne">
+        <h2 class="mb-0">
+          <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <h5><strong>Nagłówek sprawozdania finansowego</strong></h5>
+          </button>
+        </h2>
+      </div>
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionHeader">
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Okres od:</dt>
+            <dd class="col-sm-9">{{data.naglowek.0.OkresOd}}</dd>
+
+            <dt class="col-sm-3">Okres do:</dt>
+            <dd class="col-sm-9">{{data.naglowek.0.OkresDo}}</dd>
+
+            <dt class="col-sm-3">Data sporządzenia:</dt>
+            <dd class="col-sm-9">{{data.naglowek.0.DataSporzadzenia}}</dd>
+            
+            <dt class="col-sm-3">Kod Sprawozdania:</dt>
+            <dd class="col-sm-9">{{data.naglowek.0.KodSprawozdania}}</dd>
+            
+            <dt class="col-sm-3">Wariant Sprawozdania:</dt>
+            <dd class="col-sm-9">{{data.naglowek.0.WariantSprawozdania}}</dd>
+          </dl>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <p>{{data.naglowek.OkresOd}}</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-      <p>Okres do: </p>
-    </div>
-    <div class="col">
-      <p>{{data.naglowek.OkresDo}}</p>
-    </div>
-</div>  
-<div class="row">
-    <div class="col">
-      <p>Data sporządzenia: </p>
-    </div>
-    <div class="col">
-      <p>{{data.naglowek.DataSporzadzenia}}</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-      <p>Kod Sprawozdania: </p>
-    </div>
-    <div class="col">
-      <p>{{data.naglowek.KodSprawozdania}}</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-      <p>Wariant Sprawozdania: </p>
-    </div>
-    <div class="col">
-      <p>{{data.naglowek.WariantSprawozdania}}</p>
-    </div>
-</div>
+  </div>
+</section>

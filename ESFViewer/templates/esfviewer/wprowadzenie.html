@@ -1,0 +1,102 @@
+<section>
+    <div class="accordion" id="accordionIntro">
+      <div class="card shadow">
+        <div class="card-header" id="headingTwo">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              <h5><strong>Wprowadzenie do sprawozdania finansowego</strong></h5>
+            </button>
+          </h2>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionIntro">
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-3">Nazwa Podmiotu: </dt>
+              <dd class="col-sm-9"><u>{{data.siedziba.0.NazwaFirmy}}</u></dd>
+  
+              <dt class="col-sm-3">Siedziba:</dt>
+              <dd class="col-sm-9">
+                <dl class="row">
+                  <dt class="col-sm-4">Województwo:</dt>
+                  <dd class="col-sm-8">{{data.siedziba.0.Wojewodztwo}}</dd>
+                  <dt class="col-sm-4">Powiat:</dt>
+                  <dd class="col-sm-8">{{data.siedziba.0.Powiat}}</dd>
+                  <dt class="col-sm-4">Gmina:</dt>
+                  <dd class="col-sm-8">{{data.siedziba.0.Gmina}}</dd>
+                  <dt class="col-sm-4">Miejscowość:</dt>
+                  <dd class="col-sm-8">{{data.siedziba.0.Miejscowosc}}</dd>
+                </dl>
+              </dd>
+
+              <dt class="col-sm-3">Adres:</dt>
+              <dd class="col-sm-9">
+                <dl class="row">
+                  <dt class="col-sm-4">Kod Kraju:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.KodKraju}}</dd>
+                  <dt class="col-sm-4">Województwo:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.Wojewodztwo}}</dd>
+                  <dt class="col-sm-4">Powiat:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.Powiat}}</dd>
+                  <dt class="col-sm-4">Gmina:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.Gmina}}</dd>
+                  <dt class="col-sm-4">Ulica:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.Ulica}}</dd>
+                  <dt class="col-sm-4">Nr Domu:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.NrDomu}}</dd>
+                  <dt class="col-sm-4">Miejscowość:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.Miejscowosc}}</dd>
+                  <dt class="col-sm-4">Kod Pocztowy:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.KodPocztowy}}</dd>
+                  <dt class="col-sm-4">Poczta:</dt>
+                  <dd class="col-sm-8">{{data.adres.0.Poczta}}</dd>
+                </dl>
+              </dd>
+              {% if data.adres.1 %}
+              <dt class="col-sm-3">Adres zagraniczny:</dt>
+              <dd class="col-sm-9">
+                <dl class="row">
+                  <dt class="col-sm-4">Miejscowość:</dt>
+                  <dd class="col-sm-8">{{data.adres.1.Miejscowosc}}</dd>
+                  <dt class="col-sm-4">Kod Kraju:</dt>
+                  <dd class="col-sm-8">{{data.adres.1.KodKraju}}</dd>
+                </dl>
+              </dd>
+              {% endif %}
+              <dt class="col-sm-3">PKD: </dt>
+              <dd class="col-sm-9">{% for kod in data.pkd%} {{kod}} {% endfor %}</dd>
+
+              <dt class="col-sm-3">NIP: </dt>
+              <dd class="col-sm-9">{{data.nip}}</dd>
+              {% if data.krs %}
+              <dt class="col-sm-3">KRS: </dt>
+              <dd class="col-sm-9">{{data.krs}}</dd>
+              {% endif %}
+              <dt class="col-sm-3">Okres sprawozdania:</dt>
+              <dd class="col-sm-9">
+                <dl class="row">
+                  <dt class="col-sm-4">Data Od:</dt>
+                  <dd class="col-sm-8">{{data.okres_sprawozdania.0.DataOd}}</dd>
+                  <dt class="col-sm-4">Data Do:</dt>
+                  <dd class="col-sm-8">{{data.okres_sprawozdania.0.DataDo}}</dd>
+                </dl>
+              <dt class="col-sm-6 mb-3">Czas trwania działalności jednostki, jeżeli jest ograniczony: </dt>
+              <dd class="col-sm-6 mb-3">{{data.czas_dzialalnosci_jezeli_ograniczony|default_if_none:"Brak informacji"}}</dd>
+              <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zawiera dane łączne, jeżeli w skład jednostki wchodzą wewnętrzne jednostki organizacyjne sporządzające samodzielne sprawozdania finansowe: </dt>
+              <dd class="col-sm-6 mb-3">{{data.dane_laczne|yesno:"Sprawozdanie finansowe zawiera dane łącznie,Sprawozdanie nie zawiera danych łącznych"}}</dd>
+
+              <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zostało sporządzone przy założeniu kontynuowania działalności gospodarczej przez jednostkę w dającej się przewidzieć przyszłości: </dt>
+              <dd class="col-sm-6 mb-3">{{data.kontynuacja_dzialalnosci.P_5A|yesno:"Tak,Nie,Brak informacji"}}</dd>
+              <dt class="col-sm-6 mb-3">Wskazanie, czy nie istnieją okoliczności wskazujące na zagrożenie kontynuowania przez nią działalności: </dt>
+              <dd class="col-sm-6 mb-3">{{data.kontynuacja_dzialalnosci.P_5B|yesno:"Brak okoliczności wskazujących na zagrożenie kontynuowania działalności,Wystąpiły okoliczności wskazujące na zagrożenie kontynuowania działalności, Brak informacji"}}</dd>
+              <dt class="col-sm-6 mb-3">Opis okoliczności wskazujących na zagrożenie kontynuowania działalności </dt>
+              {% if data.kontynuacja_dzialalnosci.P_5C %}
+              <dd class="col-sm-6 mb-3">{{data.kontynuacja_dzialalnosci.P_5C}}</dd>
+              {% else %}
+              <dd class="col-sm-6 mb-3">Brak przedstawionego opisu</dd>
+              {% endif %}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

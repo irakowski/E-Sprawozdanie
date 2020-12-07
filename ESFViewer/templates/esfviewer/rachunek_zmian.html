@@ -1,0 +1,38 @@
+{% load viewer_tags %} 
+<section>
+  <div class="accordion" id="accordionPrzeplywy">
+    <div class="card shadow">
+      <div class="card-header" id="headingSeven">
+        <h2 class="mb-0">
+          <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
+            <h5><strong>Rachunek przepływów pieniężnych</strong></h5>
+          </button>
+        </h2>
+      </div>
+      <div id="collapseSeven" class="collapse show" aria-labelledby="headingSeven" data-parent="#accordionPrzeplywy">
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="width:50%"></th>
+                <th scope="col">Kwota na dzień kończący bieżący rok obrotowy</th>
+                <th scope="col">Kwota na dzień kończący poprzedni rok obrotowy</th>
+                <th scope="col">Przekształcone dane porównawcze za poprzedni rok obrotowy</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for entry in data.rachunek %}
+              <tr>
+                <th scope="row">{{ rachunek| get_item:entry.0 }}</th>
+                <td>{{entry.2}}</td>
+                <td>{{entry.4}}</td>
+                <td>{{entry.6}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
