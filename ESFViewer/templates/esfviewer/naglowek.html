@@ -3,28 +3,28 @@
     <div class="card shadow">
       <div class="card-header" id="headingOne">
         <h2 class="mb-0">
-          <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
             <h5><strong>Nagłówek sprawozdania finansowego</strong></h5>
           </button>
         </h2>
       </div>
-      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionHeader">
+      <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionHeader">
         <div class="card-body">
           <dl class="row">
             <dt class="col-sm-3">Okres od:</dt>
-            <dd class="col-sm-9">{{data.naglowek.0.OkresOd}}</dd>
+            <dd class="col-sm-9">{{data.naglowek.OkresOd}}</dd>
 
             <dt class="col-sm-3">Okres do:</dt>
-            <dd class="col-sm-9">{{data.naglowek.0.OkresDo}}</dd>
+            <dd class="col-sm-9">{{data.naglowek.OkresDo}}</dd>
 
             <dt class="col-sm-3">Data sporządzenia:</dt>
-            <dd class="col-sm-9">{{data.naglowek.0.DataSporzadzenia}}</dd>
+            <dd class="col-sm-9">{{data.naglowek.DataSporzadzenia}}</dd>
             
             <dt class="col-sm-3">Kod Sprawozdania:</dt>
-            <dd class="col-sm-9">{{data.naglowek.0.KodSprawozdania}}</dd>
+            <dd class="col-sm-9">{{data.naglowek.KodSprawozdania}}</dd>
             
             <dt class="col-sm-3">Wariant Sprawozdania:</dt>
-            <dd class="col-sm-9">{{data.naglowek.0.WariantSprawozdania}}</dd>
+            <dd class="col-sm-9">{{data.naglowek.WariantSprawozdania}}</dd>
           </dl>
         </div>
       </div>

@@ -15,7 +15,7 @@ class UploadFinancialStatementForm(forms.Form):
     
     file = forms.FileField(label='XML File Upload:', required=True, 
                            widget=forms.FileInput(attrs={'accept': 'application/xml, text/xml'}), 
-                           validators=[MimetypeValidator('text/xml')]
+                           validators=[MimetypeValidator(['text/xml','application/xml'])]
                            )
 
     def clean_file(self):

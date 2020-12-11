@@ -3,28 +3,28 @@
       <div class="card shadow">
         <div class="card-header" id="headingTwo">
           <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
               <h5><strong>Wprowadzenie do sprawozdania finansowego</strong></h5>
             </button>
           </h2>
         </div>
-        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionIntro">
+        <div id="collapseTwo" class="collapse hide" aria-labelledby="headingTwo" data-parent="#accordionIntro">
           <div class="card-body">
             <dl class="row">
               <dt class="col-sm-3">Nazwa Podmiotu: </dt>
-              <dd class="col-sm-9"><u>{{data.siedziba.0.NazwaFirmy}}</u></dd>
+              <dd class="col-sm-9"><u>{{data.podmiot.NazwaFirmy}}</u></dd>
   
               <dt class="col-sm-3">Siedziba:</dt>
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Województwo:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.0.Wojewodztwo}}</dd>
+                  <dd class="col-sm-8">{{data.siedziba.Wojewodztwo}}</dd>
                   <dt class="col-sm-4">Powiat:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.0.Powiat}}</dd>
+                  <dd class="col-sm-8">{{data.siedziba.Powiat}}</dd>
                   <dt class="col-sm-4">Gmina:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.0.Gmina}}</dd>
+                  <dd class="col-sm-8">{{data.siedziba.Gmina}}</dd>
                   <dt class="col-sm-4">Miejscowość:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.0.Miejscowosc}}</dd>
+                  <dd class="col-sm-8">{{data.siedziba.Miejscowosc}}</dd>
                 </dl>
               </dd>
 
@@ -32,33 +32,33 @@
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Kod Kraju:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.KodKraju}}</dd>
+                  <dd class="col-sm-8">{{data.adres.KodKraju}}</dd>
                   <dt class="col-sm-4">Województwo:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.Wojewodztwo}}</dd>
+                  <dd class="col-sm-8">{{data.adres.Wojewodztwo}}</dd>
                   <dt class="col-sm-4">Powiat:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.Powiat}}</dd>
+                  <dd class="col-sm-8">{{data.adres.Powiat}}</dd>
                   <dt class="col-sm-4">Gmina:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.Gmina}}</dd>
+                  <dd class="col-sm-8">{{data.adres.Gmina}}</dd>
                   <dt class="col-sm-4">Ulica:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.Ulica}}</dd>
+                  <dd class="col-sm-8">{{data.adres.Ulica}}</dd>
                   <dt class="col-sm-4">Nr Domu:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.NrDomu}}</dd>
+                  <dd class="col-sm-8">{{data.adres.NrDomu}}</dd>
                   <dt class="col-sm-4">Miejscowość:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.Miejscowosc}}</dd>
+                  <dd class="col-sm-8">{{data.adres.Miejscowosc}}</dd>
                   <dt class="col-sm-4">Kod Pocztowy:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.KodPocztowy}}</dd>
+                  <dd class="col-sm-8">{{data.adres.KodPocztowy}}</dd>
                   <dt class="col-sm-4">Poczta:</dt>
-                  <dd class="col-sm-8">{{data.adres.0.Poczta}}</dd>
+                  <dd class="col-sm-8">{{data.adres.Poczta}}</dd>
                 </dl>
               </dd>
-              {% if data.adres.1 %}
+              {% if data.adres_zagran %}
               <dt class="col-sm-3">Adres zagraniczny:</dt>
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Miejscowość:</dt>
-                  <dd class="col-sm-8">{{data.adres.1.Miejscowosc}}</dd>
+                  <dd class="col-sm-8">{{data.adres_zagran.Miejscowosc}}</dd>
                   <dt class="col-sm-4">Kod Kraju:</dt>
-                  <dd class="col-sm-8">{{data.adres.1.KodKraju}}</dd>
+                  <dd class="col-sm-8">{{data.adres_zagran.KodKraju}}</dd>
                 </dl>
               </dd>
               {% endif %}
@@ -69,18 +69,19 @@
               <dd class="col-sm-9">{{data.nip}}</dd>
               {% if data.krs %}
               <dt class="col-sm-3">KRS: </dt>
-              <dd class="col-sm-9">{{data.krs}}</dd>
+              <dd class="col-sm-9">{{data.krs|default_if_none:"Brak wypełnionej rubryki w niniejszym sprawozdaniu"}}</dd>
               {% endif %}
               <dt class="col-sm-3">Okres sprawozdania:</dt>
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Data Od:</dt>
-                  <dd class="col-sm-8">{{data.okres_sprawozdania.0.DataOd}}</dd>
+                  <dd class="col-sm-8">{{data.okres_sprawozdania.DataOd}}</dd>
                   <dt class="col-sm-4">Data Do:</dt>
-                  <dd class="col-sm-8">{{data.okres_sprawozdania.0.DataDo}}</dd>
+                  <dd class="col-sm-8">{{data.okres_sprawozdania.DataDo}}</dd>
                 </dl>
+              </dd>
               <dt class="col-sm-6 mb-3">Czas trwania działalności jednostki, jeżeli jest ograniczony: </dt>
-              <dd class="col-sm-6 mb-3">{{data.czas_dzialalnosci_jezeli_ograniczony|default_if_none:"Brak informacji"}}</dd>
+              <dd class="col-sm-6 mb-3">{{data.czas_dzialalnosci_jezeli_ograniczony|default_if_none:"Brak rubryki w niniejszym sprawozdaniu"}}</dd>
               <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zawiera dane łączne, jeżeli w skład jednostki wchodzą wewnętrzne jednostki organizacyjne sporządzające samodzielne sprawozdania finansowe: </dt>
               <dd class="col-sm-6 mb-3">{{data.dane_laczne|yesno:"Sprawozdanie finansowe zawiera dane łącznie,Sprawozdanie nie zawiera danych łącznych"}}</dd>
 
@@ -93,6 +94,14 @@
               <dd class="col-sm-6 mb-3">{{data.kontynuacja_dzialalnosci.P_5C}}</dd>
               {% else %}
               <dd class="col-sm-6 mb-3">Brak przedstawionego opisu</dd>
+              {% endif %}
+
+              {% if data.info_o_polaczeniu %}
+              <dt class="col-sm-3">Wskazanie czy sprawozdania zostało sporządzone po połączeniu spółek: </dt>
+              <dd class="col-sm-9">{{data.info_o_polaczeniu.P_6A|yesno:"sprawozdanie sporządzone po połączeniu spółek,sprawozdanie sporządzone przed połączeniem"}}</dd>
+
+              <dt class="col-sm-3">Wskazanie zastosowanej metody rozliczenia połączenia (nabycia, łączenia udziałów): </dt>
+              <dd class="col-sm-9">{{data.info_o_polaczeniu.P_6B}}</dd>
               {% endif %}
             </dl>
           </div>

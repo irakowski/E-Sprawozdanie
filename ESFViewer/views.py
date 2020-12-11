@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import generic
+from django.http import HttpResponse
 from . import forms
 import xml.etree.ElementTree as ET
+import xmlschema
+from .validators import xsd_check
 # Create your views here.
 from .desc import description_dict, rzis, zmiany, rachunek
 
@@ -17,10 +21,17 @@ class FormView(generic.FormView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            file_in_memory = form.cleaned_data.get('file')
-            str_text = ''
+            file_in_memory = form.cleaned_data.get('file')        
+            xml_text = ''
             for line in file_in_memory:
-                str_text = str_text + line.decode()
-            data = parse_txt(str_text)
-            return render(self.request, 'esfviewer/output.html',
-                       {"data": data, "desc" : description_dict, 'rzis':rzis, 'zmiany': zmiany, 'rachunek': rachunek})
+                xml_text = xml_text + line.decode()
+            #check xml matches its schema for this type
+            valid = xsd_check(xml_text)
+            if not valid:
+                return HttpResponse("File does not match financial statements structure")
+            else:
+                #parsing
+                data = parse_txt(xml_text)
+                return render(self.request, 'esfviewer/output.html', 
+                    {"data": data, "desc" : description_dict, 'rzis':rzis, 'zmiany': zmiany, 'rachunek': rachunek})
+        return render(self.request, self.template_name, {'form': form})
