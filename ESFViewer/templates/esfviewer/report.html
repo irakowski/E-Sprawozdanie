@@ -14,7 +14,7 @@
               <dt class="col-sm-3 mb-3">Dane podatnika:</dt>
               <dd class="col-sm-9 mb-3"></dd>
               <dt class="col-sm-3 ml-2"><li>NIP:</li> </dt>
-              <dd class="col-sm-7">{{data.nip}}</dd>
+              <dd class="col-sm-7">{{data.nip|default_if_none:'Brak przedstawionego numberu NIP'}}</dd>
               <dt class="col-sm-3 ml-2"><li>Nazwa Podmiotu:</li> </dt>
               <dd class="col-sm-7">{{data.podmiot.NazwaFirmy}}</dd>
               <dt class="col-sm-3 ml-2"><li>PKD:</li> </dt>

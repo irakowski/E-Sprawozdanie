@@ -1,5 +1,5 @@
 {% extends 'esfviewer/base.html' %}
-
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}    
   <div class="container">
@@ -8,8 +8,10 @@
       <div class="col-lg-4 col-md-4 col-sm-12">
         <form enctype="multipart/form-data" method="post" action="">
           {% csrf_token %}
-          {{form}}
-        <button type="submit">Submit</button>
+        <div class="mb-3">
+          {{form|crispy}}
+        </div>
+        <button class="btn btn-outline-dark" type="submit">Submit</button>
       </form>
       </div>
     

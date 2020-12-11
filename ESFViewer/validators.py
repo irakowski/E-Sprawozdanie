@@ -1,7 +1,9 @@
 from django.core.exceptions import ValidationError
 import magic
 import xmlschema
+from pathlib import Path
 from xmlschema.validators import exceptions
+from esprawozdanie import settings
 
 class MimetypeValidator(object):
 
@@ -19,8 +21,8 @@ class MimetypeValidator(object):
 
 def xsd_check(xml_text):
     valid = True
-    xsd_file = '/home/inna/Downloads/JednostkaInnaWTysiacach.xsd'
-    xsd_file_3 = '/home/inna/Downloads/JednostkaInnaWTysiacach(1)_v1-2.xsd'
+    xsd_file = str(Path.home().joinpath('Downloads', 'JednostkaInnaWTysiacach.xsd'))
+    xsd_file_3 = str(Path.home().joinpath('Downloads','JednostkaInnaWTysiacach(1)_v1-2.xsd'))
     schema_old = xmlschema.XMLSchema(xsd_file)
     schema_new = xmlschema.XMLSchema(xsd_file_3)
     try:
@@ -38,4 +40,5 @@ def xsd_check(xml_text):
             pass
         except exceptions.XMLSchemaException as e:
             valid = False
+
     return valid

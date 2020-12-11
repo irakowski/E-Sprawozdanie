@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'ESFViewer.apps.EsfviewerConfig',
-    
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -118,13 +118,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR/ 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_ROOT = BASE_DIR / 'media'
