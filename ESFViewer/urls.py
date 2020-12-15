@@ -3,6 +3,7 @@ from . import views
 
 app_name = 'esfviewer'
 urlpatterns = [
-    path('upload/', views.FormView.as_view(), name='upload'), 
+    path('upload/', views.UploadView.as_view(), name='upload'),
+    path('report/', views.ReportView.as_view(), name='report') 
 
 ]

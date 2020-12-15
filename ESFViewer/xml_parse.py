@@ -17,7 +17,7 @@ def data_list(el_tag, root):
     Returns None if no element with given el_tag is Found in the document
     """
     element = root.find(el_tag, my_namespaces)
-    if element:
+    if element is not None:
         d = list()
         for child in element.iter():
             tag_with_namespace = child.tag
@@ -102,7 +102,7 @@ def parse_txt(text):
         elements["nip"] = [el.text.strip() for el in nip_el][0]
     else:
         elements['nip'] = None
-    
+   
     #KRS
     krs_el = root.findall('.//tns:P_1E', my_namespaces)
     if krs_el:
@@ -131,13 +131,11 @@ def parse_txt(text):
         zasady_text = zasady_text + el.strip().replace(u'\xa0', u' ')
     elements["zasady"] = zasady_text
     zalozenia = intro_element.find('tns:P_8', my_namespaces)
-    
     zalozenia_text = ""
     if zalozenia is not None:
         for line in zalozenia.itertext():
             zalozenia_text = zalozenia_text + line.strip().replace(u'\xa0', u' ')
-    elements['zalozenia'] = zalozenia_text
-   
+    elements['zalozenia'] = zalozenia_text   
     elements["Bilans"] = data_list('tns:Bilans', root)
     elements['rzis'] = data_list('tns:RZiS', root)
     elements["zmiany"] = data_list('tns:ZestZmianWKapitale', root)
@@ -151,7 +149,7 @@ def parse_txt(text):
     report_data = calculation_dict(elements, 'rzis',[ "F", "I", "L", "A", "A_II", "A_III", "E", "D", "G"])
     zysk_strata_z_dz_operacyjnej = report_data.get("F", 0)
     zysk_strata_brutto = report_data.get("I", 0)
-    zysk_strata_netto = report_data("L", 0)
+    zysk_strata_netto = report_data.get("L", 0)
     przychody_netto_ze_sprzedazy = report_data.get("A", 0)
     zmiana_stanu_produktow = report_data.get("A_II", 0)
     koszt_wytworzenia_na_wlasne_potrzeby = report_data.get("A_III",0)
