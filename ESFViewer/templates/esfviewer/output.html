@@ -4,7 +4,7 @@
 {% block content %}    
   <div class="container">
     <div class="row">
-      <h4 class="mt-5 mb-5 text-center">INFORMACJA ZE SPRAWOZDANIA FINANSOWEGO, O KTÓRYM MOWA W ART. 45 USTAWY, DLA JEDNOSTEK INNYCH NIŻ BANKI, ZAKŁADY UBEZPIECZEŃ I ZAKŁADY REASEKURACJI</h3>
+      <h4 class="mt-5 mb-5 text-center" style="color: white;">INFORMACJA ZE SPRAWOZDANIA FINANSOWEGO, O KTÓRYM MOWA W ART. 45 USTAWY, DLA JEDNOSTEK INNYCH NIŻ BANKI, ZAKŁADY UBEZPIECZEŃ I ZAKŁADY REASEKURACJI</h3>
     </div>
     <div>
       {% include 'esfviewer/report.html' %}
@@ -19,10 +19,7 @@
     <div>
       {% include 'esfviewer/zasady.html' %}
     </div>
-
     <br>
-    {{data.zalozenia.Opis}}
-
     <div>
       {% include 'esfviewer/bilans.html'%}
     </div>

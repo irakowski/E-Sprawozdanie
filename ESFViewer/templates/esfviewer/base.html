@@ -15,17 +15,19 @@
     <title>{% block title %} E-Sprawozdanie {% endblock %}</title>
 </head>
 <body>
-    <!-- Just an image navigration -->
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'landing-page' %}" style="font-weight: bold;">
-            e-Sprawozdanie Finansowe
-            <!--<img src="" width="30" height="30" alt="" loading="lazy"> -->
-        </a>
-    </nav>
-    <!--Site wrapper-->
-    <header class="page-header header container-fluid">
-        {% block content %}
-        {% endblock %}
-    </header>
+  <!-- Just an image navigration -->
+  <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'landing-page' %}" style="font-weight: bold;color: white;">
+          e-Sprawozdanie Finansowe
+          <!--<img src="" width="30" height="30" alt="" loading="lazy"> -->
+      </a>
+  </nav>
+  <!--Site wrapper-->
+  <header class="page-header header container-fluid">
+    {% block header %}{% endblock %}
+  </header>
+  <main>
+    {% block content%}{% endblock %}
+  </main>
 </body>
 </html>

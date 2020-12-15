@@ -2,21 +2,19 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}    
-  <div class="container">
+  <div class="container" style="color: white;">
     <h3 class="mt-5 mb-5 text-center">Upload Xml</h3>
     <div class="row">
       <div class="col-lg-4 col-md-4 col-sm-12">
-        <form enctype="multipart/form-data" method="post" action="">
+        <form enctype="multipart/form-data" method="post" action="{% url 'esfviewer:report' %}">
           {% csrf_token %}
         <div class="mb-3">
-          {{form|crispy}}
+          {{form |crispy}}
         </div>
-        <button class="btn btn-outline-dark" type="submit">Submit</button>
+        <button class="btn btn-outline-light" type="submit">Submit</button>
       </form>
       </div>
     
-    </div>
-    <div class="text-center">
     </div>
   </div>
 {% endblock %}
