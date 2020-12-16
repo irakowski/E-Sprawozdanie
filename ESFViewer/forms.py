@@ -1,9 +1,9 @@
-from django import forms
-from django.contrib.staticfiles.storage import staticfiles_storage
-from django.utils.translation import gettext as _
 import os
 import xmlschema
 import xml.etree.ElementTree as ET
+from django import forms
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.utils.translation import gettext as _
 from xmlschema.validators import exceptions
 from .validators import MimetypeValidator
 
@@ -49,14 +49,13 @@ class UploadFinancialStatementForm(forms.Form):
         except exceptions.XMLSchemaChildrenValidationError:
             pass #Signature is ignored
         except exceptions.XMLSchemaException:
-            pass
-        
-        try:
-            schema_v12.validate(content)
-        except exceptions.XMLSchemaChildrenValidationError as err:
-            pass
-        except exceptions.XMLSchemaException as e:
-            raise forms.ValidationError('Provided XML does not match structure for Inna Jednostka or invalid')
+
+            try:
+                schema_v12.validate(content)
+            except exceptions.XMLSchemaChildrenValidationError as err:
+                pass
+            except exceptions.XMLSchemaException as e:
+                raise forms.ValidationError('Provided XML does not match structure for JednostkaInnaWTysiacach')
         
         return file
     
