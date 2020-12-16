@@ -3,6 +3,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.translation import gettext as _
 import os
 import xmlschema
+import xml.etree.ElementTree as ET
 from xmlschema.validators import exceptions
 from .validators import MimetypeValidator
 
@@ -37,21 +38,29 @@ class UploadFinancialStatementForm(forms.Form):
         xsd_file_3 = 'ESFViewer/static/esfviewer/files/JednostkaInnaWTysiacach_v1-2.xsd'
         schema_v10 = xmlschema.XMLSchema(xsd_file)
         schema_v12 = xmlschema.XMLSchema(xsd_file_3)
+        
+        try:
+            root = ET.fromstring(content)
+        except ET.ParseError:
+            raise forms.ValidationError(_('Can\'t parse provided XML. Check content for errors' ))
+        
         try:
             schema_v10.validate(content)
         except exceptions.XMLSchemaChildrenValidationError:
             pass #Signature is ignored
         except exceptions.XMLSchemaException:
-            try:
-                schema_v12.validate(content)
-            except exceptions.XMLSchemaChildrenValidationError as err:
-                pass
-            except exceptions.XMLSchemaException as e:
-                raise forms.ValidationError('Provided XML does not match structure for Inna Jednostka')
+            pass
+        
+        try:
+            schema_v12.validate(content)
+        except exceptions.XMLSchemaChildrenValidationError as err:
+            pass
+        except exceptions.XMLSchemaException as e:
+            raise forms.ValidationError('Provided XML does not match structure for Inna Jednostka or invalid')
+        
         return file
     
     def clean(self):
-        super().clean()
         file = self.cleaned_data.get('file', None)
         if not file:
             raise forms.ValidationError(_('Missing file'))
