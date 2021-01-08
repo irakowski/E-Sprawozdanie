@@ -1,11 +1,9 @@
 import os
-import xmlschema
-import xml.etree.ElementTree as ET
 from django import forms
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.translation import gettext as _
 from xmlschema.validators import exceptions
-from .validators import MimetypeValidator
+from . import validators
 
 def handle_upload(file_in_memory):
     xml_text = ''
@@ -26,41 +24,14 @@ class UploadFinancialStatementForm(forms.Form):
     
     file = forms.FileField(label='XML File Upload:', required=True, 
                            widget=forms.FileInput(attrs={'accept': 'application/xml, text/xml'}), 
-                           validators=[MimetypeValidator(['text/xml','application/xml'])]
+                           validators=[validators.MimetypeValidator(['text/xml','application/xml'])]
                            )
 
-    def clean_file(self):
-        file = self.cleaned_data.get('file', None)
-        content = handle_upload(file)
-        #xsd_file = staticfiles_storage.path('esfviewer/files/JednostkaInnaWTysiacach_v1-0.xsd')
-        #xsd_file_3 = staticfiles_storage.path('esfviewer/files/JednostkaInnaWTysiacach_v1-2.xsd')
-        xsd_file = 'ESFViewer/static/esfviewer/files/JednostkaInnaWTysiacach_v1-0.xsd'
-        xsd_file_3 = 'ESFViewer/static/esfviewer/files/JednostkaInnaWTysiacach_v1-2.xsd'
-        schema_v10 = xmlschema.XMLSchema(xsd_file)
-        schema_v12 = xmlschema.XMLSchema(xsd_file_3)
-        
-        try:
-            root = ET.fromstring(content)
-        except ET.ParseError:
-            raise forms.ValidationError(_('Can\'t parse provided XML. Check content for errors' ))
-        
-        try:
-            schema_v10.validate(content)
-        except exceptions.XMLSchemaChildrenValidationError:
-            pass #Signature is ignored
-        except exceptions.XMLSchemaException:
-
-            try:
-                schema_v12.validate(content)
-            except exceptions.XMLSchemaChildrenValidationError as err:
-                pass
-            except exceptions.XMLSchemaException as e:
-                raise forms.ValidationError('Provided XML does not match structure for JednostkaInnaWTysiacach')
-        
-        return file
-    
     def clean(self):
-        file = self.cleaned_data.get('file', None)
+        """Extra form-wide cleaning after Field.clean() has been
+        called on every field."""
+        cleaned_data = super().clean()
+        file = cleaned_data.get('file', None)
         if not file:
             raise forms.ValidationError(_('Missing file'))
         try:
@@ -70,4 +41,21 @@ class UploadFinancialStatementForm(forms.Form):
             else:
                 raise forms.ValidationError(_('File type is not allowed'))
         except Exception as e:
-            raise forms.ValidationError(_('Can not identify file type'))
+            raise forms.ValidationError(_('Cannot identify file type'))
+        return file
+
+    def clean_file(self):
+        """
+        Validate uploaded file against any parsing Errors and xsd schema 
+        """
+        file = self.cleaned_data.get('file', None)
+        content = handle_upload(file)
+        try:
+            xml = validators.DocumentPreProcessing(content)
+        except ValueError as e:
+            raise forms.ValidationError(_('Can\'t parse provided XML'))
+        
+        if not xml.validate_against_xsd():
+            raise forms.ValidationError(_('Document doesn\'t match available schemas'))
+        
+        return file
