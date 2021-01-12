@@ -14,18 +14,26 @@
               <dt class="col-sm-3 mb-3">Dane podatnika:</dt>
               <dd class="col-sm-9 mb-3"></dd>
               <dt class="col-sm-3 ml-2"><li>NIP:</li> </dt>
-              <dd class="col-sm-7">{{data.nip|default_if_none:'Brak przedstawionego numberu NIP'}}</dd>
+              <dd class="col-sm-7">{{data.Wprowadzenie.NIP|default_if_none:'Brak przedstawionego numberu NIP'}}</dd>
               <dt class="col-sm-3 ml-2"><li>Nazwa Podmiotu:</li> </dt>
-              <dd class="col-sm-7">{{data.podmiot.NazwaFirmy}}</dd>
+              <dd class="col-sm-7">{{data.Wprowadzenie.Nazwa_siedziba.NazwaFirmy}}</dd>
+              
+              
+              {% if data.Wprowadzenie.PKD %}
               <dt class="col-sm-3 ml-2"><li>PKD:</li> </dt>
-              <dd class="col-sm-7">{% for kod in data.pkd%} {{kod}} {% endfor %}</dd>
+              <dd class="col-sm-7">{{ data.Wprowadzenie.PKD.KodPKD}} {{data.Wprowadzenie.PKD.KodyPKD }}</dd>
+              {% else %}
+              <dt class="col-sm-3 ml-2"><li>PKD:</li> </dt>
+              <dd class="col-sm-7">Brak podanych PKD w niniejszym sprawozdaniu</dd>
+              {% endif %}
+
               <dt class="col-sm-3 ml-2"><li>Okres sprawozdania:</li></dt>
               <dd class="col-sm-7">
                 <dl class="row">
                   <dt class="col-sm-4">Data Od:</dt>
-                  <dd class="col-sm-8">{{data.okres_sprawozdania.DataOd}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.ZakresDat.DataOd}}</dd>
                   <dt class="col-sm-4">Data Do:</dt>
-                  <dd class="col-sm-8">{{data.okres_sprawozdania.DataDo}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.ZakresDat.DataDo}}</dd>
                 </dl>
               </dd>
 
@@ -33,16 +41,25 @@
               <dd class="col-sm-9 mt-3 mb-3"></dd>
 
               <dt class="col-sm-4 ml-2"><li>Marża operacyjna:</li></dt>
-              <dd class="col-sm-6">{{data.marza_operacyjna|floatformat:3}} %</dd>
-  
+              {% if data.marza_operacyjna %}
+              <dd class="col-sm-6">{{data.marza_operacyjna|floatformat:3}}%</dd>
+              {% else %}
+              <dd class="col-sm-6">Brak możliwości obliczenia wskaźnika</dd>
+              {% endif %}
+
               <dt class="col-sm-4 ml-2"><li>Marża zysku brutto:</li></dt>
-              <dd class="col-sm-6">{{data.marza_zysku_brutto|floatformat:3}} %</dd>
-  
+              {% if data.marza_zysku_brutto%}
+              <dd class="col-sm-6">{{data.marza_zysku_brutto |floatformat:3}} %</dd>
+              {% else %}
+              <dd class="col-sm-6">Brak możliwości obliczenia wskaźnika</dd>
+              {% endif %}
+
+
               <dt class="col-sm-4 ml-2"><li>Rentowność aktywów:</li></dt>
-              <dd class="col-sm-6">{{data.rentownosc_aktywow|floatformat:3}} %</dd>
+              <dd class="col-sm-6">{{data.rentownosc_aktywow |floatformat:3}} %</dd>
               
               <dt class="col-sm-4 ml-2"><li>Rentowność kapitału własnego:</li></dt>
-              <dd class="col-sm-6">{{data.rentownosc_kapitalu_wlasnego|floatformat:3}}%</dd>
+              <dd class="col-sm-6">{{data.rentownosc_kapitalu_wlasnego |floatformat:3}}%</dd>
               
             </dl>
           </div>

@@ -1,3 +1,4 @@
+{% load viewer_tags %}
 <section>
   <div class="accordion" id="accordionHeader">
     <div class="card shadow">
@@ -12,19 +13,19 @@
         <div class="card-body">
           <dl class="row">
             <dt class="col-sm-3">Okres od:</dt>
-            <dd class="col-sm-9">{{data.naglowek.OkresOd}}</dd>
+            <dd class="col-sm-9">{{data.Naglowek.OkresOd}}</dd>
 
             <dt class="col-sm-3">Okres do:</dt>
-            <dd class="col-sm-9">{{data.naglowek.OkresDo}}</dd>
+            <dd class="col-sm-9">{{data.Naglowek.OkresDo}}</dd>
 
             <dt class="col-sm-3">Data sporządzenia:</dt>
-            <dd class="col-sm-9">{{data.naglowek.DataSporzadzenia}}</dd>
+            <dd class="col-sm-9">{{data.Naglowek.DataSporzadzenia}}</dd>
             
             <dt class="col-sm-3">Kod Sprawozdania:</dt>
-            <dd class="col-sm-9">{{data.naglowek.KodSprawozdania}}</dd>
+            <dd class="col-sm-9">{{data.Naglowek.KodSprawozdania}}</dd>
             
             <dt class="col-sm-3">Wariant Sprawozdania:</dt>
-            <dd class="col-sm-9">{{data.naglowek.WariantSprawozdania}}</dd>
+            <dd class="col-sm-9">{{data.Naglowek.WariantSprawozdania}}</dd>
           </dl>
         </div>
       </div>

@@ -11,11 +11,24 @@
         <div id="collapseThree" class="collapse hide" aria-labelledby="headingThree" data-parent="#accordionZasady">
           <div class="card-body">
             <dl class="row">
-              <dt class="col-sm-1"></dt>
-              <dd class="col-sm-10">{{data.zasady}}</dd>
+              <dt class="col-sm-2">Metody wyceny aktywów i pasywów (także amortyzacji)</dt>
+              <dd class="col-sm-10">{{data.Wprowadzenie.Zasady.P_7A}} {{data.Wprowadzenie.Zasady.P_6A}}</dd>
 
-              <dt class="col-sm-1"></dt>
-              <dd class="col-sm-10">{{data.zalozenia}}</dd>
+              <dt class="col-sm-2">Zasady ustalenia wyniku finansowego</dt>
+              <dd class="col-sm-10">{{data.Wprowadzenie.Zasady.P_7B}} {{data.Wprowadzenie.Zasady.P_6B}}</dd>
+
+              <dt class="col-sm-2">Sposób sporządzenia sprawozdania finansowego</dt>
+              <dd class="col-sm-10">{{data.Wprowadzenie.Zasady.P_7C}} {{data.Wprowadzenie.Zasady.P_6C}}</dd>
+
+              {% if data.Wprowadzenie.Zasady.P_7D %}
+              <dt class="col-sm-2">Inne</dt>
+              <dd class="col-sm-10">{{data.Wprowadzenie.Zasady.P_7D}}</dd>
+              {% endif %}
+
+              {% if data.Wprowadzenie.Zalozenia%}
+              <dt class="col-sm-2">Zalożenia</dt>
+              <dd class="col-sm-10">{{data.Wprowadzenie.Zalozenia}}</dd>
+              {% endif %}
             </dl>
           </div>
         </div>

@@ -1,3 +1,4 @@
+{% load viewer_tags %}
 <section>
     <div class="accordion" id="accordionIntro">
       <div class="card shadow">
@@ -12,19 +13,19 @@
           <div class="card-body">
             <dl class="row">
               <dt class="col-sm-3">Nazwa Podmiotu: </dt>
-              <dd class="col-sm-9"><u>{{data.podmiot.NazwaFirmy}}</u></dd>
+              <dd class="col-sm-9"><u>{{data.Wprowadzenie.Nazwa_siedziba.NazwaFirmy}}</u></dd>
               
               <dt class="col-sm-3">Siedziba:</dt>
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Województwo:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.Wojewodztwo}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Nazwa_siedziba.Wojewodztwo}}</dd>
                   <dt class="col-sm-4">Powiat:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.Powiat}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Nazwa_siedziba.Powiat}}</dd>
                   <dt class="col-sm-4">Gmina:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.Gmina}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Nazwa_siedziba.Gmina}}</dd>
                   <dt class="col-sm-4">Miejscowość:</dt>
-                  <dd class="col-sm-8">{{data.siedziba.Miejscowosc}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Nazwa_siedziba.Miejscowosc}}</dd>
                 </dl>
               </dd>
 
@@ -32,76 +33,99 @@
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Kod Kraju:</dt>
-                  <dd class="col-sm-8">{{data.adres.KodKraju}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.KodKraju}}</dd>
                   <dt class="col-sm-4">Województwo:</dt>
-                  <dd class="col-sm-8">{{data.adres.Wojewodztwo}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.Wojewodztwo}}</dd>
                   <dt class="col-sm-4">Powiat:</dt>
-                  <dd class="col-sm-8">{{data.adres.Powiat}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.Powiat}}</dd>
                   <dt class="col-sm-4">Gmina:</dt>
-                  <dd class="col-sm-8">{{data.adres.Gmina}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.Gmina}}</dd>
+                  {% if data.Wprowadzenie.Adres.Ulica %}
                   <dt class="col-sm-4">Ulica:</dt>
-                  <dd class="col-sm-8">{{data.adres.Ulica}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.Ulica}}</dd>
+                  {% endif %}
                   <dt class="col-sm-4">Nr Domu:</dt>
-                  <dd class="col-sm-8">{{data.adres.NrDomu}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.NrDomu}}</dd>
                   <dt class="col-sm-4">Miejscowość:</dt>
-                  <dd class="col-sm-8">{{data.adres.Miejscowosc}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.Miejscowosc}}</dd>
                   <dt class="col-sm-4">Kod Pocztowy:</dt>
-                  <dd class="col-sm-8">{{data.adres.KodPocztowy}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.KodPocztowy}}</dd>
                   <dt class="col-sm-4">Poczta:</dt>
-                  <dd class="col-sm-8">{{data.adres.Poczta}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.Poczta}}</dd>
                 </dl>
               </dd>
-              {% if data.adres_zagran %}
+              {% if data.Wprowadzenie.AdresPrzedsiebiorcyZagranicznego %}
               <dt class="col-sm-3">Adres zagraniczny:</dt>
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Miejscowość:</dt>
-                  <dd class="col-sm-8">{{data.adres_zagran.Miejscowosc}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.AdresPrzedsiebiorcyZagranicznego.Miejscowosc}}</dd>
                   <dt class="col-sm-4">Kod Kraju:</dt>
-                  <dd class="col-sm-8">{{data.adres_zagran.KodKraju}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.AdresPrzedsiebiorcyZagranicznego.KodKraju}}</dd>
                 </dl>
               </dd>
               {% endif %}
-              <dt class="col-sm-3">PKD: </dt>
-              <dd class="col-sm-9">{% for kod in data.pkd%} {{kod}} {% endfor %}</dd>
 
-              <dt class="col-sm-3">NIP: </dt>
-              <dd class="col-sm-9">{{data.nip}}</dd>
-              {% if data.krs %}
-              <dt class="col-sm-3">KRS: </dt>
-              <dd class="col-sm-9">{{data.krs|default_if_none:"Brak wypełnionej rubryki w niniejszym sprawozdaniu"}}</dd>
+              {% if data.Wprowadzenie.PKD %}
+              <dt class="col-sm-3">PKD: </dt>
+              <dd class="col-sm-9">{{ data.Wprowadzenie.PKD.KodPKD}} {{data.Wprowadzenie.PKD.KodyPKD }}</dd>
+              {% else %}
+              <dt class="col-sm-3">PKD: </dt>
+              <dd class="col-sm-9">Brak podanych PKD w niniejszym sprawozdaniu</dd>
               {% endif %}
+
+
+              {% if data.Wprowadzenie.NIP %}
+              <dt class="col-sm-3">NIP: </dt>
+              <dd class="col-sm-9">{{data.Wprowadzenie.NIP}}</dd>
+              {% else %}
+              <dt class="col-sm-3">NIP: </dt>
+              <dd class="col-sm-9">Nie podano numeru NIP</dd>
+              {% endif %}
+
+              {% if data.Wprowadzenie.KRS %}
+              <dt class="col-sm-3">KRS: </dt>
+              <dd class="col-sm-9">{{data.Wprowadzenie.KRS}}</dd>
+              {% else %}
+              <dt class="col-sm-3">KRS: </dt>
+              <dd class="col-sm-9">Nie podano numeru KRS w sprawozdaniu</dd>
+              {% endif %}
+              
+              
               <dt class="col-sm-3">Okres sprawozdania:</dt>
               <dd class="col-sm-9">
                 <dl class="row">
                   <dt class="col-sm-4">Data Od:</dt>
-                  <dd class="col-sm-8">{{data.okres_sprawozdania.DataOd}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.ZakresDat.DataOd}}</dd>
                   <dt class="col-sm-4">Data Do:</dt>
-                  <dd class="col-sm-8">{{data.okres_sprawozdania.DataDo}}</dd>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.ZakresDat.DataDo}}</dd>
                 </dl>
               </dd>
+              {% if data.Wprowadzenie.OgranicCzasDzialalnosci %}
               <dt class="col-sm-6 mb-3">Czas trwania działalności jednostki, jeżeli jest ograniczony: </dt>
-              <dd class="col-sm-6 mb-3">{{data.czas_dzialalnosci_jezeli_ograniczony|default_if_none:"Brak rubryki w niniejszym sprawozdaniu"}}</dd>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.OgranicCzasDzialalnosci}}</dd>
+              {% endif %}
+
               <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zawiera dane łączne, jeżeli w skład jednostki wchodzą wewnętrzne jednostki organizacyjne sporządzające samodzielne sprawozdania finansowe: </dt>
-              <dd class="col-sm-6 mb-3">{{data.dane_laczne|yesno:"Sprawozdanie finansowe zawiera dane łącznie,Sprawozdanie nie zawiera danych łącznych"}}</dd>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.SprFinDaneLaczne|to_bool|yesno:"Sprawozdanie finansowe zawiera dane łącznie,Sprawozdanie nie zawiera danych łącznych"}}</dd>
 
               <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zostało sporządzone przy założeniu kontynuowania działalności gospodarczej przez jednostkę w dającej się przewidzieć przyszłości: </dt>
-              <dd class="col-sm-6 mb-3">{{data.kontynuacja_dzialalnosci.P_5A|yesno:"Tak,Nie,Brak informacji"}}</dd>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.KontynuacjaDzialalnosci.P_5A|to_bool|yesno:'Tak, Nie'}}</dd>
               <dt class="col-sm-6 mb-3">Wskazanie, czy nie istnieją okoliczności wskazujące na zagrożenie kontynuowania przez nią działalności: </dt>
-              <dd class="col-sm-6 mb-3">{{data.kontynuacja_dzialalnosci.P_5B|yesno:"Brak okoliczności wskazujących na zagrożenie kontynuowania działalności,Wystąpiły okoliczności wskazujące na zagrożenie kontynuowania działalności, Brak informacji"}}</dd>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.KontynuacjaDzialalnosci.P_5B|to_bool|yesno:"Brak okoliczności wskazujących na zagrożenie kontynuowania działalności,Wystąpiły okoliczności wskazujące na zagrożenie kontynuowania działalności"}}</dd>
               <dt class="col-sm-6 mb-3">Opis okoliczności wskazujących na zagrożenie kontynuowania działalności </dt>
-              {% if data.kontynuacja_dzialalnosci.P_5C %}
-              <dd class="col-sm-6 mb-3">{{data.kontynuacja_dzialalnosci.P_5C}}</dd>
+              {% if data.Wprowadzenie.KontynuacjaDzialalnosci.P_5C %}
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.KontynuacjaDzialalnosci.P_5C}}</dd>
               {% else %}
               <dd class="col-sm-6 mb-3">Brak przedstawionego opisu</dd>
               {% endif %}
 
-              {% if data.info_o_polaczeniu %}
-              <dt class="col-sm-3">Wskazanie czy sprawozdania zostało sporządzone po połączeniu spółek: </dt>
-              <dd class="col-sm-9">{{data.info_o_polaczeniu.P_6A|yesno:"sprawozdanie sporządzone po połączeniu spółek,sprawozdanie sporządzone przed połączeniem"}}</dd>
+              {% if data.Wprowadzenie.SprFinPoPolaczeniu %}
+              <dd class="col-sm-6 mb-3">Wskazanie czy sprawozdania zostało sporządzone po połączeniu spółek: </dt>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.SprFinPoPolaczeniu.P_6A|to_bool|yesno:"sprawozdanie sporządzone po połączeniu spółek,sprawozdanie sporządzone przed połączeniem"}}</dd>
 
-              <dt class="col-sm-3">Wskazanie zastosowanej metody rozliczenia połączenia (nabycia, łączenia udziałów): </dt>
-              <dd class="col-sm-9">{{data.info_o_polaczeniu.P_6B}}</dd>
+              <dd class="col-sm-6 mb-3">Wskazanie zastosowanej metody rozliczenia połączenia (nabycia, łączenia udziałów): </dt>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.SprFinPoPolaczeniu.P_6B}}</dd>
               {% endif %}
             </dl>
           </div>

@@ -1,4 +1,6 @@
+
 {% load viewer_tags %} 
+{% if data.ZestawienieZmian %}
 <section>
   <div class="accordion" id="accordionZmiany">
     <div class="card shadow">
@@ -21,12 +23,12 @@
               </tr>
             </thead>
             <tbody>
-              {% for entry in data.zmiany %}
+              {% for key, value in data.ZestawienieZmian.items %}
               <tr>
-                <th scope="row">{{ zmiany| get_item:entry.0 }}</th>
-                <td>{{entry.2|thousands}}</td>
-                <td>{{entry.4|thousands}}</td>
-                <td>{{entry.6|thousands}}</td>
+                <th scope="row">{{ zmiany| get_item:key }}</th>
+                <td>{{value.KwotaA|thousands}}</td>
+                <td>{{value.KwotaB|thousands}}</td>
+                <td>{{value.KwotaC|thousands}}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -36,3 +38,4 @@
     </div>
   </div>
 </section>
+{% endif %}
