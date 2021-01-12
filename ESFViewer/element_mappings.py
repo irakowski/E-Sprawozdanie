@@ -50,6 +50,7 @@ bilans_dict = {
     'Aktywa_B_I_4': '●●● Towary',
     'Aktywa_B_I_5': '●●● Zaliczki na dostawy i usługi',
     'Aktywa_B_II': '●● Należności krótkoterminowe',
+    'Aktywa_B_2': '●● Należności krótkoterminowe',
     'Aktywa_B_II_1': '●●● Należności od jednostek powiązanych',
     'Aktywa_B_II_1_A': '●●●● Z tytułu dostaw i usług, o okresie spłaty:',
     'Aktywa_B_II_1_A_1': '●●●●● Do 12 miesięcy',
