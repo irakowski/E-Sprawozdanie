@@ -14,3 +14,8 @@ def thousands(value):
     except ValueError:
         return value
     return f"{value:,}".replace(',',' ')
+
+@register.filter
+def to_bool(value):
+    """Converts XML boolean values(true, false) to Python bool"""
+    return value == 'true ' or value == 'true'
