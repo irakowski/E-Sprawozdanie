@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from . import forms
 from .xml_parse import parse_txt
-from .desc import bilans_dict, rzis_dict, zmiany_dict, rachunek_dict
+from . import element_mappings
 
 
 class LandingPage(generic.TemplateView):
@@ -37,7 +37,7 @@ class ReportView(generic.FormView):
         xml_text = forms.handle_upload(file_in_memory)
         data = parse_txt(xml_text)
         return render(self.request, 'esfviewer/output.html', 
-                {'data': data, 'desc' : bilans_dict, 'rzis':rzis_dict, 
-                'zmiany': zmiany_dict, 'rachunek': rachunek})
+                {'data': data, 'desc' : element_mappings.bilans_dict, 'rzis': element_mappings.rzis_dict, 
+                'zmiany': element_mappings.zmiany_dict, 'rachunek': element_mappings.rachunek_dict})
     
     
