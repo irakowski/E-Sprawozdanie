@@ -1,0 +1,22 @@
+{% extends 'esfviewer/base.html' %}
+
+{% load static %}
+
+{% block content%}
+    <div class="container mt-5">
+      <div class="row mt-5" style="color: white;">
+        <div class="col text-center">
+          <p>
+              No i stalo się! Mimo naszych starań, wydarzył się bląd, który jeszcze nie zdolaliśmy naprawić! 
+              Jeżeli widzisz tą informację, najprawdopodonie twój plik jest poprawny, ale z przyczyn jeszcze nie znanych, 
+              nasz czytnik nie był w stanie jego rozpoznać ¯\_(~_~ )_/¯
+              W przypadku chęci, zapraszamy do zgłoszenia uwag poprzez formularz kontaktowy! 
+          </p>
+        </div>
+      </div>
+      <div class="text-center mt-5">
+        <a type="button" class="btn btn-outline-light" href="{% url 'landing-page' %}" style="width: 200px;">Wroć do strony glównej</a>
+      </div>
+    </div>
+    
+{%endblock%}
