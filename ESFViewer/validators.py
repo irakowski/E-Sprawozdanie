@@ -98,9 +98,8 @@ class DocumentPreProcessing:
 			xsd_file = doc_type + '(1)_v1-0.xsd'
 		else:
 			xsd_file = doc_type + '(1)_v'+ version + '.xsd'
-            
-        #path = STATIC_ROOT + 'esfviewer/files/' + xsd_file
-		path = '/home/michael/Desktop/venvs/e-sprawozdanie/E-Sprawozdanie/ESFViewer/static/esfviewer/files/' + xsd_file
+		#path = str(STATIC_ROOT) + '/esfviewer/files/' + xsd_file
+		#path = '/E-Sprawozdanie/ESFViewer/static/esfviewer/files/' + xsd_file
 		return path
 		
 	def validate_against_xsd(self):
@@ -110,7 +109,7 @@ class DocumentPreProcessing:
 		Catches any XMLShema errors, returning False as a validation result
 		"""
 		try:
-			schema = xmlschema.XMLSchema(self.get_xsd_file_path())
+			schema = xmlschema.XMLSchema(self.get_xsd_file_path(), validation='lax')
 		except:
 			return False
 		return schema.is_valid(self.xml_string)
