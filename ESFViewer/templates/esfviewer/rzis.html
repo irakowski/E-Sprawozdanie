@@ -22,12 +22,12 @@
               </tr>
             </thead>
             <tbody>
-              {% for key, value in data.RZiS.items %}
+              {% for entry in data.RZiS %}
               <tr>
-                <th scope="row">{{ rzis| get_item:key }}</th>
-                <td>{{value.KwotaA |thousands}}</td>
-                <td>{{value.KwotaB |thousands}}</td>
-                <td>{{value.KwotaC |thousands}}</td>
+                <th scope="row">{{ entry.0 }}</th>
+                <td>{{entry.2 |thousands}}</td>
+                <td>{{entry.4 |thousands}}</td>
+                <td>{{entry.6 |thousands}}</td>
               </tr>
               {% endfor %}
             </tbody>

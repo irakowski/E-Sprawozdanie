@@ -46,6 +46,10 @@
                   {% endif %}
                   <dt class="col-sm-4">Nr Domu:</dt>
                   <dd class="col-sm-8">{{data.Wprowadzenie.Adres.NrDomu}}</dd>
+                  {% if data.Wprowadzenie.Adres.NrLokalu %}
+                  <dt class="col-sm-4">NrLokalu:</dt>
+                  <dd class="col-sm-8">{{data.Wprowadzenie.Adres.NrLokalu}}</dd>
+                  {% endif %}
                   <dt class="col-sm-4">Miejscowość:</dt>
                   <dd class="col-sm-8">{{data.Wprowadzenie.Adres.Miejscowosc}}</dd>
                   <dt class="col-sm-4">Kod Pocztowy:</dt>
@@ -106,25 +110,45 @@
               <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.OgranicCzasDzialalnosci}}</dd>
               {% endif %}
 
+              {% if data.Wprowadzenie.SprFinDaneLaczne %}
               <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zawiera dane łączne, jeżeli w skład jednostki wchodzą wewnętrzne jednostki organizacyjne sporządzające samodzielne sprawozdania finansowe: </dt>
               <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.SprFinDaneLaczne|to_bool|yesno:"Sprawozdanie finansowe zawiera dane łącznie,Sprawozdanie nie zawiera danych łącznych"}}</dd>
+              {% endif %}
 
+              {% if data.Wprowadzenie.Uproszczenia %}
+              <dt class="col-sm-6 mb-3">Wskazanie zastosowanych zasad rachunkowości przewidzianych dla jednostek mikro z wyszczególnieniem wybranych uproszczeń: </dt>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.Uproszczenia}}</dd>
+              {% endif %}
+
+              {% if data.Wprowadzenie.Kontynuacja %}
+              <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zostało sporządzone przy założeniu kontynuowania działalności gospodarczej przez jednostkę w dającej się przewidzieć przyszłości: </dt>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.Kontynuacja.P_5A|to_bool|yesno:'Tak, Nie'}}</dd>
+              <dt class="col-sm-6 mb-3">Wskazanie, czy nie istnieją okoliczności wskazujące na zagrożenie kontynuowania przez nią działalności: </dt>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.Kontynuacja.P_5B|to_bool|yesno:"Brak okoliczności wskazujących na zagrożenie kontynuowania działalności,Wystąpiły okoliczności wskazujące na zagrożenie kontynuowania działalności"}}</dd>
+              <dt class="col-sm-6 mb-3">Opis okoliczności wskazujących na zagrożenie kontynuowania działalności </dt>
+              {% endif %}
+
+              {% if data.Wprowadzenie.KontynuacjaDzialalnosci %}
               <dt class="col-sm-6 mb-3">Wskazanie, czy sprawozdanie finansowe zostało sporządzone przy założeniu kontynuowania działalności gospodarczej przez jednostkę w dającej się przewidzieć przyszłości: </dt>
               <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.KontynuacjaDzialalnosci.P_5A|to_bool|yesno:'Tak, Nie'}}</dd>
               <dt class="col-sm-6 mb-3">Wskazanie, czy nie istnieją okoliczności wskazujące na zagrożenie kontynuowania przez nią działalności: </dt>
               <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.KontynuacjaDzialalnosci.P_5B|to_bool|yesno:"Brak okoliczności wskazujących na zagrożenie kontynuowania działalności,Wystąpiły okoliczności wskazujące na zagrożenie kontynuowania działalności"}}</dd>
-              <dt class="col-sm-6 mb-3">Opis okoliczności wskazujących na zagrożenie kontynuowania działalności </dt>
+              
+              {% endif %}
               {% if data.Wprowadzenie.KontynuacjaDzialalnosci.P_5C %}
+              <dt class="col-sm-6 mb-3">Opis okoliczności wskazujących na zagrożenie kontynuowania działalności </dt>
               <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.KontynuacjaDzialalnosci.P_5C}}</dd>
-              {% else %}
-              <dd class="col-sm-6 mb-3">Brak przedstawionego opisu</dd>
+              {% endif %}
+
+              {% if data.Wprowadzenie.Kontynuacja.P_5C %}
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.Kontynuacja.P_5C}}</dd>
               {% endif %}
 
               {% if data.Wprowadzenie.SprFinPoPolaczeniu %}
-              <dd class="col-sm-6 mb-3">Wskazanie czy sprawozdania zostało sporządzone po połączeniu spółek: </dt>
-              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.SprFinPoPolaczeniu.P_6A|to_bool|yesno:"sprawozdanie sporządzone po połączeniu spółek,sprawozdanie sporządzone przed połączeniem"}}</dd>
+              <dt class="col-sm-6 mb-3">W przypadku sprawozdania finansowego sporządzonego za okres, w ciągu którego nastąpiło połączenie spółek, wskazanie, że jest to sprawozdanie finansowe sporządzone po połączeniu spółek: </dt>
+              <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.SprFinPoPolaczeniu.P_6A|to_bool|yesno:"sprawozdanie sporządzone po połączeniu spółek, sprawozdanie sporządzone przed połączeniem"}}</dd>
 
-              <dd class="col-sm-6 mb-3">Wskazanie zastosowanej metody rozliczenia połączenia (nabycia, łączenia udziałów): </dt>
+              <dt class="col-sm-6 mb-3">Wskazanie zastosowanej metody rozliczenia połączenia (nabycia, łączenia udziałów): </dt>
               <dd class="col-sm-6 mb-3">{{data.Wprowadzenie.SprFinPoPolaczeniu.P_6B}}</dd>
               {% endif %}
             </dl>
