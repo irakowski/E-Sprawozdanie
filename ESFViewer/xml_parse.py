@@ -22,17 +22,17 @@ class FinancialStatement:
         
         #common structure for all documents
         self.naglowek_data = self.simple_dict(self.data_list(self._naglowek))
-        self.bilans_data = self.convert_to_dict(self._bilans)
-        self.rzis_data = self.convert_to_dict(self._rzis)
+        self.bilans_data = self.data_list(self._bilans)
+        self.rzis_data = self.data_list(self._rzis)
         self.zestawienie_zmian_data = self.convert_to_dict(self._zestawienie_zmian)
         self.rachunek_przeplywow_data = self.convert_to_dict(self._rachunek_przeplywow)
+        self.method = self.get_method()
 
         if self.get_entity_type() in self.__class__.AVAILABLE_TYPES:
             self.wprowadzenie_data = self.wprowadzenie_data_PKD()
         else:
             self.wprowadzenie_data = self.wprowadzenie_data_wo_PKD()
-        #calculaion method
-        self.method = self.get_method()
+
 
     def _cook(self):
         soup = BeautifulSoup(self.xml_text, 'lxml-xml')
@@ -46,14 +46,27 @@ class FinancialStatement:
         porow = re.search(r'((p|P)orówn)|(RZiSPor)',str(self.soup))
         if porow:
             return 'RZiSPor'
-        
+
+    def get_mapping_dic(self):
+        if self.get_method() == 'RZiSPor':
+            return element_mappings.bilans_rzis_dict
+        return element_mappings.bilans_rzis_kalk
+       
     def data_list(self, main_node):
         data = []
         unit = []
+        if main_node is self._bilans or main_node is self._rzis:
+            dictionary = self.get_mapping_dic()
+        if main_node is self._zestawienie_zmian:
+            dictionary = element_mappings.zmiany_dict
+        if main_node is self._rachunek_przeplywow:
+            dictionary = element_mappings.rachunek_dict
+        if self.get_entity_type() in ['JednostkaMikro'] and main_node is self._rzis:
+            dictionary = element_mappings.rzis_male_mikro 
         for node in main_node.descendants:
             if node.name is not None:
                 if node.string is None:
-                    unit = list((node.name,))
+                    unit = list((dictionary.get(node.name, node.name),))
                     data.append(unit)
                 else:
                     unit.extend([node.name, node.string.strip().replace(u'\xa0', u' ')])
@@ -110,12 +123,130 @@ class FinancialStatement:
             if node.name:
                 if re.match(r'P_[14][CD]*', node.name):
                     main_dict[mapp.get(node.name, node.name)] = node.string
-                if re.match(r'P_1[A]', node.name) or re.match(r'Adres.?', node.name) or re.match(r'P_[345678]$', node.name):
+                if re.match(r'P_1[A]', node.name) or re.match(r'Adres.?', node.name) or re.match(r'P_[35678]$', node.name):
                     for n in node.descendants:
                         if n.name and n.string:
                             inner_dict[n.name] = inner_dict.get(n.name, "") + n.string.strip().replace(u'\xa0', u' ') + " "
                     main_dict[mapp.get(node.name, node.name)] = inner_dict
         return main_dict
+
+
+    def dict_lookup(self, dictionary, value):
+        lookup_value = dictionary.get(value, None)
+        if lookup_value is not None:
+            return float(lookup_value.get('KwotaA'))
+        return 0
+
+    def marzy_wariant_porownawczy(self):
+        rzis_dictionary = self.convert_to_dict(self._rzis)
+        if self.get_entity_type() not in ['JednostkaMikro']:
+            zysk_dz_op =  self.dict_lookup(rzis_dictionary,'Zysk (strata) z działalności operacyjnej (C+D–E)')
+            przych_net_sprz = self.dict_lookup(rzis_dictionary, 'Przychody netto ze sprzedaży i zrównane z nimi, w tym:' )
+            zmiana_stanu_prod = self.dict_lookup(rzis_dictionary, '● Zmiana stanu produktów (zwiększenie – wartość dodatnia, zmniejszenie – wartość ujemna)')
+            koszt_wytw_swiad = self.dict_lookup(rzis_dictionary, '● Koszt wytworzenia produktów na własne potrzeby jednostki') ## make sure it is the right node    
+            poz_przych_op = self.dict_lookup(rzis_dictionary, 'Pozostałe przychody operacyjne')
+            
+            
+            zysk_str_br = self.dict_lookup(rzis_dictionary, 'Zysk (strata) brutto (F+G–H)')
+            przych_fin = self.dict_lookup(rzis_dictionary, 'Przychody finansowe')    
+            zysk_strata_netto = self.dict_lookup(rzis_dictionary, 'Zysk (strata) netto (I–J–K)')
+        else:
+            przych_net_sprz = self.dict_lookup(rzis_dictionary, 'Przychody podstawowej działalności operacyjnej i zrównane z nimi')
+            zmiana_stanu_prod = self.dict_lookup(rzis_dictionary, '● Zmiana stanu produktów, zwiększenie - wartość dodatnia, zmniejszenie - wartość ujemna')
+            koszt_wytw_swiad = self.dict_lookup(rzis_dictionary, '● Koszt wytworzenia produktów na własne potrzeby jednostki')
+            poz_przych_op = self.dict_lookup(rzis_dictionary, 'Pozostałe przychody operacyjne')
+            zysk_str_br = self.dict_lookup(rzis_dictionary, 'Zysk (strata) brutto (F+G–H)')
+            przych_fin = self.dict_lookup(rzis_dictionary, 'Przychody finansowe')  
+            
+            zysk_strata_netto = self.dict_lookup(rzis_dictionary, 'Zysk/strata netto (A-B+C-D-E) (dla jednostek mikro, o których mowa w art. 3 ust. 1a pkt 1, 3 i 4 oraz ust. 1b ustawy)')
+
+        
+        divider = przych_net_sprz - zmiana_stanu_prod - koszt_wytw_swiad + poz_przych_op
+        try:
+            marza_operacyjna = (zysk_dz_op *100) / divider
+        except:
+            marza_operacyjna = None
+
+        try: 
+            marza_brutto = (zysk_str_br*100)/ (divider + przych_fin)
+        except: 
+            marza_brutto = None
+
+
+        return marza_operacyjna, marza_brutto, zysk_strata_netto 
+
+    def marzy_wariant_kalkulacujny(self):
+        rzis_dictionary = self.convert_to_dict(self._rzis)
+        zysk_dz_op = self.dict_lookup(rzis_dictionary, 'Zysk (strata) z działalności operacyjnej (F+G–H)')
+        przych_net_sprz = self.dict_lookup(rzis_dictionary, 'Przychody netto ze sprzedaży produktów, towarów i materiałów, w tym:')
+        poz_przych_op = self.dict_lookup(rzis_dictionary, 'Pozostałe przychody operacyjne')
+        divider = przych_net_sprz + poz_przych_op
+
+        zysk_str_br = self.dict_lookup(rzis_dictionary, 'Zysk (strata) brutto (I+J–K)')
+        przych_fin = self.dict_lookup(rzis_dictionary, 'Przychody finansowe')
+        
+        if self.get_entity_type() not in ['JednostkaMala','JednostkaMikro']:
+            zysk_strata_netto = self.dict_lookup(rzis_dictionary, 'Zysk (strata) netto (L–M–N)')
+        else:
+            zysk_strata_netto = self.dict_lookup(rzis_dictionary, 'Zysk/strata netto (A-B+C-D-E) (dla jednostek mikro, o których mowa w art. 3 ust. 1a pkt 1, 3 i 4 oraz ust. 1b ustawy)')
+    
+        
+        try:
+            marza_operacyjna =  (zysk_dz_op*100) / divider
+
+        except:
+            marza_operacyjna = None
+
+        try:
+            marza_brutto = (zysk_str_br*100) /(divider + przych_fin)
+        except: 
+            marza_brutto = None
+
+        return marza_operacyjna, marza_brutto, zysk_strata_netto
+
+
+
+    def rentownosc(self):
+        bilans_dic = self.convert_to_dict(self._bilans)
+      
+        
+        aktywa_razem = self.dict_lookup(bilans_dic, 'Aktywa')
+
+
+        kapital_fundusz_wlasny = self.dict_lookup(bilans_dic, '● Kapitał (fundusz) własny')
+        if self.method == 'RZiSPor':
+            zysk_strata_net = self.marzy_wariant_porownawczy()[2]
+        else:
+            zysk_strata_net = self.marzy_wariant_kalkulacujny()[2]
+
+        try:
+            rentownosc_aktywow = (zysk_strata_net*100)/ aktywa_razem
+        except:
+            rentownosc_aktywow = None
+
+        try:
+            rentownosc_kapilu_wlasnego = (zysk_strata_net*100)/kapital_fundusz_wlasny
+        except:
+            rentownosc_kapilu_wlasnego = None
+        
+        return rentownosc_aktywow, rentownosc_kapilu_wlasnego
+
+    def marza_operacyjna(self):
+        if self.method == "RZiSPor":
+            return self.marzy_wariant_porownawczy()[0]
+        return self.marzy_wariant_kalkulacujny()[0]   
+
+    def marza_zysku_brutto(self):
+        if self.method == "RZiSPor":
+            return self.marzy_wariant_porownawczy()[1]
+        return self.marzy_wariant_kalkulacujny()[1]
+    
+    def rentownosc_aktywow(self):
+        return self.rentownosc()[0]
+
+    def rentownosc_kapilu_wlasnego(self):
+        return self.rentownosc()[1]
+    
 
     def data(self):
         el = {}
@@ -127,73 +258,15 @@ class FinancialStatement:
         el['RachunekPrzeplywow'] = self.rachunek_przeplywow_data
         return el
 
-    def dict_lookup(self, dictionary, value):
-        lookup_value = dictionary.get(value, None)
-        if lookup_value is not None:
-            return float(lookup_value.get('KwotaA'))
-        return 0
 
-    def marzy(self):
-        zysk_strata_z_dz_operacyjnej = self.dict_lookup(self.rzis_data, 'F')
-        zysk_strata_brutto = self.dict_lookup(self.rzis_data, 'I')
-        zysk_strata_netto = self.dict_lookup(self.rzis_data, 'L')
-        przychody_netto_ze_sprzedazy = self.dict_lookup(self.rzis_data, 'A')
-        zmiana_stanu_produktow = self.dict_lookup(self.rzis_data, 'A_II')
-        koszt_wytworzenia_na_wlasne_potrzeby = self.dict_lookup(self.rzis_data, 'A_III')
-        pozostale_koszty_operacyjne = self.dict_lookup(self.rzis_data,'E')
-        pozostale_przychody_operacyjne = self.dict_lookup(self.rzis_data, 'D')
-        przychody_finansowe = self.dict_lookup(self.rzis_data, 'G')
-        if self.method == 'RZiSPor':
-            divider_1 = przychody_netto_ze_sprzedazy-zmiana_stanu_produktow-koszt_wytworzenia_na_wlasne_potrzeby
-            divider_2 = divider_1+pozostale_przychody_operacyjne
-            try:
-                marza_operacyjna = zysk_strata_z_dz_operacyjnej*100/divider_2
-            except:
-                marza_operacyjna = None
+       
 
-            try:
-                marza_zysku_brutto = (zysk_strata_brutto*100) / (divider_2 + przychody_finansowe)
-            except:
-                marza_zysku_brutto = None
-        else:
-            try:
-                marza_operacyjna = zysk_strata_z_dz_operacyjnej*100/ (przychody_netto_ze_sprzedazy+pozostale_przychody_operacyjne)
-            except:
-                marza_operacyjna = None
-            try:
-                marza_zysku_brutto = (zysk_strata_brutto*100)/(przychody_netto_ze_sprzedazy + pozostale_przychody_operacyjne + przychody_finansowe)
-            except:
-                marza_zysku_brutto = None
-        return marza_operacyjna, marza_zysku_brutto
-
-    def marza_operacyjna(self):
-        return self.marzy()[0]
-    
-    def marza_zysku_brutto(self):
-        return self.marzy()[1]
-
-    def rentownosc_aktywow(self):
-        zysk_strata_netto = self.dict_lookup(self.rzis_data, 'L')
-        aktywa_razem = self.dict_lookup(self.bilans_data, 'Aktywa')
-        try:
-            return zysk_strata_netto*100/ aktywa_razem
-        except:
-            return None
-    
-    def rentownosc_kapilu_wlasnego(self):
-        zysk_strata_netto = self.dict_lookup(self.rzis_data, 'L')
-        kapital_fundusz_wlasny = self.dict_lookup(self.bilans_data, 'Pasywa_A')
-        try:
-            return zysk_strata_netto*100/kapital_fundusz_wlasny
-        except:
-            return None
 
 
 def parse_txt(text):
     
     instance = FinancialStatement(text)
-#    print(instance.get_entity_type())
-#    print(instance.method)
+    #print(instance.get_entity_type())
     data = instance.data()
     data['marza_operacyjna'] = instance.marza_operacyjna()
     data['marza_zysku_brutto'] = instance.marza_zysku_brutto()
