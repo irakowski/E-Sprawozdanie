@@ -3,7 +3,7 @@
 	<xsd:import namespace="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" schemaLocation="StrukturyDanych_v4-0E.xsd"/>
 	<xsd:import namespace="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/DefinicjeTypySprawozdaniaFinansowe/" schemaLocation="StrukturyDanychSprFin_v1-2.xsd"/>
 	<xsd:import namespace="http://www.mf.gov.pl/schematy/SF/DefinicjeTypySprawozdaniaFinansowe/2018/07/09/JednostkaInnaStruktury" schemaLocation="JednostkaInnaStrukturyDanychSprFin_v1-2.xsd"/>
-	<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="signaturewith_xsd.xsd" />
+	<xsd:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd" />
 	<xsd:element name="JednostkaInnaWTys">
 		<xsd:annotation>
 			<xsd:documentation>ZAKRES INFORMACJI WYKAZYWANYCH W SPRAWOZDANIU FINANSOWYM, O KTÓRYM MOWA W ART. 45 USTAWY, DLA JEDNOSTEK INNYCH NIŻ BANKI, ZAKŁADY UBEZPIECZEŃ I ZAKŁADY REASEKURACJI</xsd:documentation>
