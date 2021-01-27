@@ -8,7 +8,7 @@ from django.views import generic
 from . import forms
 from .xml_parse import parse_txt
 from . import element_mappings
-
+from esprawozdanie.settings import STATIC_ROOT
 
 class LandingPage(generic.TemplateView):
     """Basic landing page providing link to file upload"""
@@ -36,8 +36,11 @@ class ReportView(generic.FormView):
         file_in_memory = form.cleaned_data 
         xml_text = forms.handle_upload(file_in_memory)
         data = parse_txt(xml_text)
-        return render(self.request, 'esfviewer/output.html', 
-                {'data': data, 'desc' : element_mappings.bilans_dict, 'rzis': element_mappings.rzis_dict, 
-                'zmiany': element_mappings.zmiany_dict, 'rachunek': element_mappings.rachunek_dict})
-    
+        return render(self.request, 'esfviewer/output.html', {'data': data})
+
+def my_500_view(request):
+    context = {}
+    response = render(request, "esfviewer/errors/500.html", context=context)
+    response.status_code = 500
+    return response
     
