@@ -23,3 +23,6 @@ urlpatterns = [
     path('viewer/', include('ESFViewer.urls')),
     path('admin/', admin.site.urls),
 ]
+
+
+handler500 = 'ESFViewer.views.my_500_view'
